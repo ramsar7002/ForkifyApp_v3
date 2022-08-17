@@ -31,7 +31,7 @@ body {
 }
 
 .container {
-  max-width: 120rem;
+  max-width: 140rem;
   min-height: 117rem;
   margin: 4vw auto;
   background-color: #fff;
@@ -475,7 +475,7 @@ body {
 }
 
 .pagination {
-  margin-top: auto;
+  margin-top: 0;
   padding: 0 3.5rem;
 }
 .pagination::after {
@@ -494,7 +494,7 @@ body {
   color: #918581;
   font-size: 1.2rem;
   padding: 0 3.5rem;
-  margin-top: 4rem;
+  margin-top: auto;
 }
 .copyright .twitter-link:link,
 .copyright .twitter-link:visited {

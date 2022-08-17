@@ -30,7 +30,7 @@ body {
 }
 
 .container {
-  max-width: 120rem;
+  max-width: 140rem;
   min-height: 117rem;
   background-color: #fff;
   border-radius: 9px;
@@ -497,7 +497,7 @@ body {
 }
 
 .pagination {
-  margin-top: auto;
+  margin-top: 0;
   padding: 0 3.5rem;
 }
 
@@ -517,7 +517,7 @@ body {
 
 .copyright {
   color: #918581;
-  margin-top: 4rem;
+  margin-top: auto;
   padding: 0 3.5rem;
   font-size: 1.2rem;
 }

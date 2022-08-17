@@ -574,10 +574,19 @@ const controlPagination = (goToPage)=>{
     (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPage(goToPage));
     (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
 };
+const controlServings = (sign)=>{
+    //update the recpie servings
+    const num = sign === "plus" ? _modelJs.state.recipe.servings + 1 : _modelJs.state.recipe.servings - 1;
+    if (num === 0) return;
+    _modelJs.updateServings(num);
+    //update the recipe view
+    (0, _receipeViewDefault.default).render(_modelJs.state.recipe);
+};
 const init = function() {
     (0, _receipeViewDefault.default).addHandlerRender(controlRecipes);
     (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults);
     (0, _paginationViewJsDefault.default).addHandlerClick(controlPagination);
+    (0, _receipeViewDefault.default).addHandlerUpdateServings(controlServings);
 };
 init();
 
@@ -618,6 +627,7 @@ parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
+parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 var _config = require("./config");
 var _helpers = require("./helpers");
 const state = {
@@ -668,6 +678,12 @@ const getSearchResultsPage = (page = state.search.page)=>{
     const start = (page - 1) * state.search.resultsPerPage;
     const end = page * state.search.resultsPerPage;
     return state.search.results.slice(start, end);
+};
+const updateServings = (newServings)=>{
+    state.recipe.ingredients?.forEach((item)=>{
+        item.quantity = item.quantity * newServings / state.recipe.servings;
+    });
+    state.recipe.servings = newServings;
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
@@ -817,6 +833,13 @@ class RecipeView extends (0, _viewDefault.default) {
             "hashchange",
             "load"
         ].forEach((ev)=>window.addEventListener(ev, handler));
+    }
+    addHandlerUpdateServings(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn--tiny");
+            if (!btn) return;
+            handler(btn.dataset.sign);
+        });
     }
 }
 exports.default = new RecipeView();
@@ -1236,6 +1259,7 @@ class PaginationView extends (0, _viewDefault.default) {
     }
     _generateMarkup() {
         const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
+        if (numPages === 0) return "";
         // page1, and there are other pages
         if (this._data.page === 1 && numPages > 1) return `
       <button data-goto=${this._data.page + 1} class="btn--inline pagination__btn--next">

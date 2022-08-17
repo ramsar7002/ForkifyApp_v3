@@ -45,9 +45,22 @@ const controlPagination = goToPage => {
   paginationView.render(model.state.search);
 };
 
+const controlServings = sign => {
+  //update the recpie servings
+  const num =
+    sign === 'plus'
+      ? model.state.recipe.servings + 1
+      : model.state.recipe.servings - 1;
+  if (num === 0) return;
+  model.updateServings(num);
+  //update the recipe view
+  receipeView.render(model.state.recipe);
+};
+
 const init = function () {
   receipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  receipeView.addHandlerUpdateServings(controlServings);
 };
 init();
