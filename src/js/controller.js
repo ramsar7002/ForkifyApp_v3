@@ -54,7 +54,8 @@ const controlServings = sign => {
   if (num === 0) return;
   model.updateServings(num);
   //update the recipe view
-  receipeView.render(model.state.recipe);
+  // receipeView.render(model.state.recipe);
+  receipeView.update(model.state.recipe);
 };
 
 const init = function () {

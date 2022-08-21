@@ -30,14 +30,14 @@ body {
 }
 
 .container {
-  max-width: 140rem;
+  max-width: 135rem;
   min-height: 117rem;
   background-color: #fff;
   border-radius: 9px;
   grid-template: "head head" 10rem
                  "list recipe" minmax(100rem, auto)
                  / 1fr 2fr;
-  margin: 4vw auto;
+  margin: 1vw auto;
   display: grid;
   overflow: hidden;
   box-shadow: 0 2rem 6rem .5rem #61555133;

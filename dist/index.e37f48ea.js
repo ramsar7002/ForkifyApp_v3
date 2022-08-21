@@ -580,7 +580,8 @@ const controlServings = (sign)=>{
     if (num === 0) return;
     _modelJs.updateServings(num);
     //update the recipe view
-    (0, _receipeViewDefault.default).render(_modelJs.state.recipe);
+    // receipeView.render(model.state.recipe);
+    (0, _receipeViewDefault.default).update(_modelJs.state.recipe);
 };
 const init = function() {
     (0, _receipeViewDefault.default).addHandlerRender(controlRecipes);
@@ -1183,6 +1184,19 @@ class View {
   </div>`;
         this._clear();
         this._parentElement.insertAdjacentHTML("afterBegin", markUp);
+    }
+    update(data) {
+        if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
+        this._data = data;
+        const newMarkUp = this._generateMarkup();
+        const newDom = document.createRange().createContextualFragment(newMarkUp);
+        const newElements = Array.from(newDom.querySelectorAll("*"));
+        const curElements = Array.from(this._parentElement.querySelectorAll("*"));
+        newElements.forEach((newEl, i)=>{
+            const curEl = curElements[i];
+            if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== "") curEl.textContent = newEl.textContent;
+            if (!newEl.isEqualNode(curEl)) Array.from(newEl.attributes).forEach((attr)=>curEl.setAttribute(attr.name, attr.value));
+        });
     }
 }
 exports.default = View;
