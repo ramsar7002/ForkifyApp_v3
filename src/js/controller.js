@@ -3,6 +3,7 @@ import receipeView from './views/receipeView';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
+import bookmarksView from './views/bookmarksView.js';
 
 const controlRecipes = async () => {
   try {
@@ -60,10 +61,16 @@ const controlServings = sign => {
   receipeView.update(model.state.recipe);
 };
 
+const controlAddBookmark = () => {
+  model.addBookMark(model.state.recipe);
+  receipeView.update(model.state.recipe);
+};
+
 const init = function () {
   receipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
   receipeView.addHandlerUpdateServings(controlServings);
+  receipeView.addHandlerAddBookmark(controlAddBookmark);
 };
 init();
