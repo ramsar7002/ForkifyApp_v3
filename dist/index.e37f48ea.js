@@ -547,6 +547,7 @@ const controlRecipes = async ()=>{
         const id = window.location.hash.slice(1);
         if (!id) return;
         (0, _receipeViewDefault.default).renderSpiner();
+        (0, _resultsViewJsDefault.default).update(_modelJs.getSearchResultsPage());
         //Loading recipe
         await _modelJs.loadRecipe(id);
         (0, _receipeViewDefault.default).render(_modelJs.state.recipe);
@@ -560,7 +561,7 @@ const controlSearchResults = async (e)=>{
         const query = (0, _searchViewJsDefault.default).getQuery();
         if (!query) return;
         (0, _resultsViewJsDefault.default).renderSpiner();
-        //get results from api
+        //get results from apif
         await _modelJs.loadSearchResults(query);
         //render results
         (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPage());
@@ -1186,7 +1187,8 @@ class View {
         this._parentElement.insertAdjacentHTML("afterBegin", markUp);
     }
     update(data) {
-        if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
+        // if (!data || (Array.isArray(data) && data.length === 0))
+        //   return this.renderError();
         this._data = data;
         const newMarkUp = this._generateMarkup();
         const newDom = document.createRange().createContextualFragment(newMarkUp);
@@ -1238,9 +1240,10 @@ class ResultsView extends (0, _viewDefault.default) {
         return this._data.map((item)=>this._generateMarkupPreview(item)).join("");
     }
     _generateMarkupPreview(item) {
+        const id = window.location.hash.slice(1);
         return `          
         <li class="preview">
-        <a class="preview__link" href="#${item.id}">
+        <a class="preview__link ${item.id === id ? "preview__link--active" : ""}" href="#${item.id}">
           <figure class="preview__fig">
             <img src="${item.image}" alt="${item.title}" />
           </figure>

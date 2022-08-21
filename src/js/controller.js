@@ -10,6 +10,8 @@ const controlRecipes = async () => {
     if (!id) return;
 
     receipeView.renderSpiner();
+
+    resultsView.update(model.getSearchResultsPage());
     //Loading recipe
     await model.loadRecipe(id);
 
@@ -27,7 +29,7 @@ const controlSearchResults = async e => {
     if (!query) return;
     resultsView.renderSpiner();
 
-    //get results from api
+    //get results from apif
     await model.loadSearchResults(query);
 
     //render results
