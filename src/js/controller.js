@@ -62,7 +62,7 @@ const controlServings = sign => {
 };
 
 const controlAddBookmark = () => {
-  model.addBookMark(model.state.recipe);
+  model.bookmarkBtnClicked(model.state.recipe);
   receipeView.update(model.state.recipe);
 };
 

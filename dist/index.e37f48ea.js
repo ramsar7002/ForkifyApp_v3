@@ -587,7 +587,7 @@ const controlServings = (sign)=>{
     (0, _receipeViewDefault.default).update(_modelJs.state.recipe);
 };
 const controlAddBookmark = ()=>{
-    _modelJs.addBookMark(_modelJs.state.recipe);
+    _modelJs.bookmarkBtnClicked(_modelJs.state.recipe);
     (0, _receipeViewDefault.default).update(_modelJs.state.recipe);
 };
 const init = function() {
@@ -637,7 +637,7 @@ parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
-parcelHelpers.export(exports, "addBookMark", ()=>addBookMark);
+parcelHelpers.export(exports, "bookmarkBtnClicked", ()=>bookmarkBtnClicked);
 var _config = require("./config");
 var _helpers = require("./helpers");
 const state = {
@@ -652,6 +652,7 @@ const state = {
 };
 const loadRecipe = async (id)=>{
     try {
+        // console.log(this._bookmarks);
         const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}/${id}?key=${(0, _config.KEY)}`);
         let { recipe  } = data.data;
         state.recipe = {
@@ -662,7 +663,8 @@ const loadRecipe = async (id)=>{
             image: recipe.image_url,
             servings: recipe.servings,
             cookingTime: recipe.cooking_time,
-            ingredients: recipe.ingredients
+            ingredients: recipe.ingredients,
+            bookmarked: state.bookmarks.some((rec)=>rec.id === recipe.id)
         };
     } catch (err) {
         throw err;
@@ -697,8 +699,7 @@ const updateServings = (newServings)=>{
     });
     state.recipe.servings = newServings;
 };
-const addBookMark = function() {
-    console.log(state.recipe.bookmarked);
+const bookmarkBtnClicked = function() {
     if (state.recipe.bookmarked) {
         state.bookmarks = state.bookmarks.filter((item)=>item.id !== state.recipe.id);
         state.recipe.bookmarked = false;
