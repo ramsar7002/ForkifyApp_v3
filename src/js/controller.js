@@ -17,6 +17,8 @@ const controlRecipes = async () => {
     await model.loadRecipe(id);
 
     receipeView.render(model.state.recipe);
+
+    bookmarksView.update(model.state.bookmarks);
   } catch (err) {
     receipeView.renderError();
   }
@@ -62,8 +64,13 @@ const controlServings = sign => {
 };
 
 const controlAddBookmark = () => {
-  model.bookmarkBtnClicked(model.state.recipe);
+  if (model.state.recipe.bookmarked) {
+    model.addBookmark(model.state.recipe);
+  } else {
+    model.deleteBookMark();
+  }
   receipeView.update(model.state.recipe);
+  bookmarksView.render(model.state.bookmarks);
 };
 
 const init = function () {

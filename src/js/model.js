@@ -72,14 +72,12 @@ export const updateServings = newServings => {
   state.recipe.servings = newServings;
 };
 
-export const bookmarkBtnClicked = function () {
-  if (state.recipe.bookmarked) {
-    state.bookmarks = state.bookmarks.filter(
-      item => item.id !== state.recipe.id
-    );
-    state.recipe.bookmarked = false;
-  } else {
-    state.bookmarks.push(state.recipe);
-    state.recipe.bookmarked = true;
-  }
+export const addBookmark = function () {
+  state.bookmarks = state.bookmarks.filter(item => item.id !== state.recipe.id);
+  state.recipe.bookmarked = false;
+};
+
+export const deleteBookMark = function () {
+  state.bookmarks.push(state.recipe);
+  state.recipe.bookmarked = true;
 };

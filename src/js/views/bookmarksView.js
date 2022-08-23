@@ -1,13 +1,14 @@
 import icons from 'url:../../img/icons.svg';
+import previewView from './previewView';
 import View from './view';
 
 class BookmarksView extends View {
-  _parentElement = document.querySelector('.pagination');
+  _parentElement = document.querySelector('.bookmarks__list');
+  _errMessage = 'No bookmarks yet. Find a nice recipe and bokkmark it!';
+  _message = '';
 
-  addHandlerAddBookmark() {
-    this._parentElement.addEventListener('click', e => {
-      console.log(e);
-    });
+  _generateMarkup() {
+    return this._data.map(item => previewView.render(item, false)).join('');
   }
 }
 
