@@ -4,6 +4,8 @@ import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
 import bookmarksView from './views/bookmarksView.js';
+import addRecipeView from './views/addRecipeView';
+import { MODAL_CLOSE_SEC } from './config.js';
 
 const controlRecipes = async () => {
   try {
@@ -65,9 +67,9 @@ const controlServings = sign => {
 
 const controlAddBookmark = () => {
   if (model.state.recipe.bookmarked) {
-    model.addBookmark(model.state.recipe);
+    model.deleteBookMark(model.state.recipe);
   } else {
-    model.deleteBookMark();
+    model.addBookmark(model.state.recipe);
   }
   receipeView.update(model.state.recipe);
   bookmarksView.render(model.state.bookmarks);
@@ -77,6 +79,24 @@ const controlBookmarks = function () {
   bookmarksView.render(model.state.bookmarks);
 };
 
+const controlAddRecipe = async function (newRecipe) {
+  try {
+    addRecipeView.renderSpiner();
+    await model.uploadRecipe(newRecipe);
+    receipeView.render(model.state.recipe);
+    addRecipeView.renderMessage();
+    bookmarksView.render(model.state.bookmarks);
+
+    //change id in the url
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
+    setTimeout(() => {
+      addRecipeView.toggleWindow();
+    }, MODAL_CLOSE_SEC * 1000);
+  } catch (err) {
+    addRecipeView.renderError(err.message);
+  }
+};
+
 const init = function () {
   receipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
@@ -84,5 +104,6 @@ const init = function () {
   receipeView.addHandlerUpdateServings(controlServings);
   receipeView.addHandlerAddBookmark(controlAddBookmark);
   bookmarksView.addHandlerRender(controlBookmarks);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 init();

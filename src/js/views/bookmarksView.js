@@ -4,7 +4,7 @@ import View from './view';
 
 class BookmarksView extends View {
   _parentElement = document.querySelector('.bookmarks__list');
-  _errMessage = 'No bookmarks yet. Find a nice recipe and bokkmark it!';
+  _errMessage = 'No bookmarks yet. Find a nice recipe and bookmark it!';
   _message = '';
 
   addHandlerRender(handler) {
